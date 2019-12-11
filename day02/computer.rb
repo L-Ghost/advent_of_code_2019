@@ -4,16 +4,15 @@ class Computer
   MULTIPLY = 2
   HALT = 99
 
-  def initialize(noun, verb)
-    @intcode = File.open('./day02.txt').read.split(',').map(&:to_i)
-    @noun = noun
-    @verb = verb
-    restore_gravity_assist
+  def initialize
+    @initial_state = File.open('./day02.txt').read.split(',').map(&:to_i)
+    @intcode = initial_state
   end
 
-  attr_reader :intcode, :noun, :verb
+  attr_reader :initial_state, :intcode, :noun, :verb
 
-  def process
+  def process(noun, verb)
+    reset_memory(noun, verb)
     i = 0
     while i < intcode.size
       break if intcode[i] == HALT
@@ -30,9 +29,15 @@ class Computer
 
   private
 
+  def reset_memory(noun, verb)
+    @intcode = initial_state.dup
+    @noun = noun
+    @verb = verb
+    restore_gravity_assist
+  end
+
   def restore_gravity_assist
     intcode[1] = noun
     intcode[2] = verb
   end
 end
-

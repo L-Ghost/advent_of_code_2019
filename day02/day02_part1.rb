@@ -1,3 +1,5 @@
 require './computer'
 
-puts Computer.new(12, 2).process
+computer = Computer.new
+
+puts computer.process(12, 2)
